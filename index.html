@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music, artist</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: rgba(98, 255, 46, 0.34);
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+      .top {
+        display: flex;
+        padding: 20px 40px;
+        justify-content: space-between;
+      }
+      .links {
+        display: flex;
+        gap: 20px;
+      }
+      .links p {
+        cursor: pointer;
+        font-family:
+          "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
+          Arial, sans-serif;
+        font-weight: 600;
+      }
+      .center {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 20px;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 1px 4px 5px 1px rgb(65, 65, 65);
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        width: 500px;
+        margin-left: 30%;
+      }
+      .links p:hover {
+        border-bottom: 1px solid white;
+        transition: 0.4s;
+        padding-top: 4px;
+      }
+      input {
+        border: none;
+        border-bottom: 2px solid black;
+        padding: 6px;
+      }
+      input:hover {
+        border: none;
+        border-bottom: 3px solid green;
+      }
+      button {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: rgb(232, 244, 254);
+        border: 2px solid rgba(98, 255, 46, 0.34);
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .lyrics {
+        white-space: pre-line;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top">
+        <h1>tynda</h1>
+        <div class="links">
+          <p>Home</p>
+          <p>Popular</p>
+          <p>Latest</p>
+          <p>Genres</p>
+          <p>Sign Up</p>
+        </div>
+      </div>
+      <div class="center">
+        <div class="izde">
+          <input type="text" placeholder="Enter a music name" id="song" />
+          <input type="text" placeholder="Enter a singer name" id="singer" />
+          <button>Search</button>
+        </div>
+        <div class="main" style="height: auto">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script>
+      const btn = document.querySelector("button");
+      const song = document.querySelector("#song");
+      const singer = document.querySelector("#singer");
+      const box = document.querySelector(".main");
+      const URL = "./data.json";
+
+      btn.addEventListener("click", async function () {
+        const promise = await fetch(URL);
+        const data = await promise.json();
+
+        for (let i = 0; i < data.songs.length; i++) {
+          const name = song.value.trim();
+          const anwi = singer.value.trim();
+          console.log(data.songs[i].name);
+
+          if (
+            data.songs[i].name
+              .toLowerCase()
+              .trim()
+              .includes(name.toLowerCase()) &&
+            data.songs[i].singer
+              .toLowerCase()
+              .trim()
+              .includes(anwi.toLowerCase())
+          ) {
+            box.innerHTML = `<p class = "lyrics">${data.songs[i].lyrics}</p>`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
